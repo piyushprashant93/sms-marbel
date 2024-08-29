@@ -1,0 +1,17 @@
+
+ import "./classData.zmodel"  
+ import "./exam.zmodel"  
+
+model Course {
+
+    id                String        @id @default(uuid())  
+    name            String?          
+    syllabus    String?          
+    classId      String          
+    class          ClassData?  @relation(fields: [classId], references: [id], name:"class")  
+
+exams          Exam[]        @relation("course")  
+      dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}

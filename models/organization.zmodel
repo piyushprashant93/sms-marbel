@@ -1,0 +1,29 @@
+import "./organizationRole.zmodel";
+
+import './organizationRole.zmodel'
+
+import './student.zmodel'
+
+import './teacher.zmodel'
+
+import './classData.zmodel'
+
+model Organization {
+    id               String             @id @default(uuid())
+    name             String
+    pictureUrl       String?            @default('https://i.imgur.com/BgkFiid.jpeg')
+    
+    stripeCustomerId String?
+    
+    dateCreated      DateTime           @default(now())
+    dateUpdated      DateTime           @updatedAt @default(now())
+    roles            OrganizationRole[]
+
+students    Student[]  @relation("organization")  
+        teachers    Teacher[]  @relation("organization")  
+        classs        ClassData[]  @relation("organization")  
+
+@@allow('all', auth().roles?[name == 'admin'])
+    @@allow('all', roles?[user == auth() && name == 'owner'])
+    @@allow('read', roles?[user == auth()])
+}

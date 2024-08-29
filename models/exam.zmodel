@@ -1,0 +1,15 @@
+
+ import "./course.zmodel"  
+
+model Exam {
+
+    id                String        @id @default(uuid())  
+    schedule    String?          
+    type            String?          
+    courseId    String          
+    course        Course?        @relation(fields: [courseId], references: [id], name:"course")  
+
+dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}
